@@ -1,16 +1,17 @@
 import React, {Dispatch, SetStateAction} from "react";
 import {Divider, Grid, Typography} from "@mui/material";
 import NumericInputTextField from "./NumericInputTextField";
-import {CalculData, Child} from "./Types";
+import {CalculData, CentileColumns, Child, ChildInput} from "./Types";
 
 type ChildType =
-  &Child
+  & Child
   & {
+    centileColumns: CentileColumns,
     calculData: CalculData,
     setCalculData: Dispatch<SetStateAction<CalculData | undefined>>
   }
 
-const TestChild = ({id, label, centileColumns, calculData, setCalculData}: ChildType) => {
+const TestChild = ({id, input, label, centileColumns, calculData, setCalculData}: ChildType) => {
 
   const updateAverage = (moyenne: number) => {
     setCalculData(previousCalculData => {
@@ -34,7 +35,7 @@ const TestChild = ({id, label, centileColumns, calculData, setCalculData}: Child
     setCalculData(previousCalculData => {
       if (previousCalculData) {
         const testCalculData = previousCalculData[id];
-        const pct = testCalculData.pct.map(({p, v}) => {
+        const pct = (testCalculData.pct || []).map(({p, v}) => {
           if (p !== centileColumnValue) return {p, v};
           return {p, v: percentileValue};
         });
@@ -44,33 +45,38 @@ const TestChild = ({id, label, centileColumns, calculData, setCalculData}: Child
   };
 
   return (
-    <Grid item sm={12} key={id} container rowSpacing={1} spacing={2}>
+    <Grid item sm={12} key={id} container rowSpacing={1} spacing={2} alignItems="center">
       <Grid item sm={3}>
-        <Typography variant="h4">{label}</Typography>
+        <Typography variant="h4">- {label}</Typography>
       </Grid>
       <Grid item sm={2} container rowSpacing={1} spacing={2}>
-        <Grid item sm={12}>
-          <NumericInputTextField
-            label="Moyenne"
-            value={calculData[id].moyenne}
-            onChangeValue={updateAverage}
-          />
-        </Grid>
-        <Grid item sm={12}>
-          <NumericInputTextField
-            label="E.T."
-            value={calculData[id].ET}
-            onChangeValue={updateStandardDeviation}
-          />
-        </Grid>
+        { ['SCORE_ET', 'TEMPS_ET', 'ERR_SCORE_ET', 'ERR_TEMPS_ET'].some((r) => input.includes(r as ChildInput)) &&
+          <>
+            <Grid item sm={12}>
+              <NumericInputTextField
+                label="Moyenne"
+                value={calculData[id].moyenne}
+                onChangeValue={updateAverage}
+              />
+            </Grid>
+            <Grid item sm={12}>
+              <NumericInputTextField
+                label="E.T."
+                value={calculData[id].ET}
+                onChangeValue={updateStandardDeviation}
+              />
+            </Grid>
+          </>
+        }
       </Grid>
       <Grid item sm={7} container rowSpacing={1} spacing={2}>
         {
+          ['SCORE_CENTILE', 'TEMPS_CENTILE', 'ERR_CENTILE', 'ERR_TEMPSCENTILE', 'SCORE_QUART', 'SCORE_QUINT'].some(r=> input.includes(r as ChildInput)) &&
           centileColumns.map(({centileValue: centileColumnValue}) =>
             <Grid item sm={1} key={centileColumnValue}>
               <NumericInputTextField
                 label={`P${centileColumnValue}`}
-                value={(calculData[id].pct.find(({p})=> p === centileColumnValue)|| {}).v || 0}
+                value={((calculData[id].pct || []).find(({p})=> p === centileColumnValue)|| {}).v || 0}
                 onChangeValue={updatePercentileValue(centileColumnValue)}
               />
             </Grid>

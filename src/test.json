@@ -13,7 +13,8 @@
     {
       "id": "custom_e91797cd-d5c1-45e4-847a-1a3a052e9b09",
       "input": [
-        "SCORE_ET"
+        "SCORE_ET",
+        "SCORE_CENTILE"
       ],
       "label": "e1"
     },
@@ -23,6 +24,13 @@
         "SCORE_CENTILE"
       ],
       "label": "e2"
+    },
+    {
+      "id": "custom_e91797cd-d5c1-45e4-847a-1a3a052e9b10",
+      "input": [
+        "SCORE_ET"
+      ],
+      "label": "e3"
     }
   ],
   "affectation": [],

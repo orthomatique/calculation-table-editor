@@ -2,11 +2,12 @@ export type CentileColumn = { centileValue: number };
 
 export type CentileColumns = Array<CentileColumn>;
 
+export type ChildInput = 'SCORE_ET' | 'TEMPS_ET' | 'ERR_SCORE_ET' | 'ERR_TEMPS_ET' | 'SCORE_CENTILE' | 'TEMPS_CENTILE' | 'ERR_CENTILE' | 'ERR_TEMPSCENTILE' | 'SCORE_QUART' | 'SCORE_QUINT' | 'SCORE_AD' | 'NS19' | 'QUALI';
+
 export type Child = {
   id: string,
-  input: Array<string>,
+  input: Array<ChildInput>,
   label: string,
-  centileColumns: Array<{ centileValue: number }>
 };
 
 export type PercentileValue = { p: number, v: number | null };
@@ -15,8 +16,8 @@ export type PercentileValues = Array<PercentileValue>;
 export type TestCalculData = {
   moyenne: number,
   ET: number,
-  order: "ASC" | "DESC",
-  pct: PercentileValues
+  order?: "ASC" | "DESC",
+  pct?: PercentileValues
 };
 
 export type CalculData = {
@@ -39,7 +40,7 @@ export type Test = {
   patho: string;
   difficultyThreshold: string;
   options: string[];
-  children: { id: string; input: string[]; label: string; }[];
+  children: Child[];
   affectation: never[];
   testCode: string;
 }
