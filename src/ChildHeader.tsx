@@ -5,11 +5,11 @@ import {
 } from "@mui/material";
 import React, {Dispatch, SetStateAction} from "react";
 import AddPercentileButton from "./AddPercentileButton";
-import {CentileColumns} from "./Types";
+import {CentileColumn} from "./Types";
 
 type ChildHeaderType = {
   centileColumns: Array<{centileValue: number}>,
-  setCentileColumns: Dispatch<SetStateAction<CentileColumns>>
+  setCentileColumns: Dispatch<SetStateAction<CentileColumn[]>>
 }
 
 const ChildHeader = ({centileColumns, setCentileColumns}: ChildHeaderType) => {
@@ -22,21 +22,21 @@ const ChildHeader = ({centileColumns, setCentileColumns}: ChildHeaderType) => {
     })
   };
 
-  return <Grid item sm={12} container spacing={2}>
-    <Grid item sm={3}>
+  return <Grid item md={12} container spacing={2}>
+    <Grid item md={3}>
       <Typography variant="h4">Libellé d&apos;&eacute;preuve</Typography>
     </Grid>
-    <Grid item sm={2}>
+    <Grid item md={2}>
       <Typography variant="h4">Zscore</Typography>
     </Grid>
-    <Grid item sm={7} container spacing={2}>
-      <Grid item sm={12}>
+    <Grid item md={7} container spacing={2}>
+      <Grid item md={12}>
         <Typography variant="h4">centiles</Typography>
       </Grid>
-      <Grid item sm={12} container spacing={2}>
+      <Grid item md={12} container spacing={2}>
         {
           centileColumns.map((centileColumn) =>
-            <Grid item sm={1} key={centileColumn.centileValue}>
+            <Grid item xl={1} lg={2} md={3} key={centileColumn.centileValue}>
               P{centileColumn.centileValue}
             </Grid>
           )
@@ -44,7 +44,7 @@ const ChildHeader = ({centileColumns, setCentileColumns}: ChildHeaderType) => {
         <AddPercentileButton addPercentileColumn={addPercentileColumn} />
       </Grid>
     </Grid>
-    <Grid item sm={12}>
+    <Grid item md={12}>
       <Divider/>
     </Grid>
 

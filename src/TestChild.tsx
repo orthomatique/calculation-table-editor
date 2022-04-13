@@ -1,12 +1,13 @@
 import React from "react";
 import {Divider, Grid, Typography} from "@mui/material";
 import NumericInputTextField from "./NumericInputTextField";
-import {CalculData, CentileColumns, Child, ChildInput} from "./Types";
+import {CalculData, CentileColumn, Child} from "./Types";
+import {inputHasPercentile, inputHasStandardDeviation} from "./util";
 
 type ChildType =
   & Child
   & {
-    centileColumns: CentileColumns,
+    centileColumns: CentileColumn[],
     calculData: CalculData,
     setCalculData: (calculData: CalculData) => void
   }
@@ -33,21 +34,21 @@ const TestChild = ({id, input, label, centileColumns, calculData, setCalculData}
   };
 
   return (
-    <Grid item sm={12} key={id} container rowSpacing={1} spacing={2} alignItems="center">
-      <Grid item sm={3}>
+    <Grid item md={12} key={id} container rowSpacing={1} spacing={2} alignItems="center">
+      <Grid item md={3}>
         <Typography variant="h4">- {label}</Typography>
       </Grid>
-      <Grid item sm={2} container rowSpacing={1} spacing={2}>
-        { ['SCORE_ET', 'TEMPS_ET', 'ERR_SCORE_ET', 'ERR_TEMPS_ET'].some((r) => input.includes(r as ChildInput)) &&
+      <Grid item md={2} container rowSpacing={1} spacing={2}>
+        { inputHasStandardDeviation(input) &&
           <>
-            <Grid item sm={12}>
+            <Grid item md={12}>
               <NumericInputTextField
                 label="Moyenne"
                 value={calculData[id].moyenne}
                 onChangeValue={updateAverage}
               />
             </Grid>
-            <Grid item sm={12}>
+            <Grid item md={12}>
               <NumericInputTextField
                 label="E.T."
                 value={calculData[id].ET}
@@ -57,11 +58,11 @@ const TestChild = ({id, input, label, centileColumns, calculData, setCalculData}
           </>
         }
       </Grid>
-      <Grid item sm={7} container rowSpacing={1} spacing={2}>
+      <Grid item md={7} container rowSpacing={1} spacing={2}>
         {
-          ['SCORE_CENTILE', 'TEMPS_CENTILE', 'ERR_CENTILE', 'ERR_TEMPSCENTILE', 'SCORE_QUART', 'SCORE_QUINT'].some(r=> input.includes(r as ChildInput)) &&
+          inputHasPercentile(input) &&
           centileColumns.map(({centileValue: centileColumnValue}) =>
-            <Grid item sm={1} key={centileColumnValue}>
+            <Grid item xl={1} lg={2} md={3} key={centileColumnValue}>
               <NumericInputTextField
                 label={`P${centileColumnValue}`}
                 value={((calculData[id].pct || []).find(({p})=> p === centileColumnValue)|| {}).v || 0}
@@ -71,7 +72,7 @@ const TestChild = ({id, input, label, centileColumns, calculData, setCalculData}
           )
         }
       </Grid>
-      <Grid item sm={12}>
+      <Grid item md={12}>
         <Divider/>
       </Grid>
     </Grid>
