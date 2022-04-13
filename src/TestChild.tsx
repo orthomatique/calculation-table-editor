@@ -1,4 +1,4 @@
-import React, {Dispatch, SetStateAction} from "react";
+import React from "react";
 import {Divider, Grid, Typography} from "@mui/material";
 import NumericInputTextField from "./NumericInputTextField";
 import {CalculData, CentileColumns, Child, ChildInput} from "./Types";
@@ -8,40 +8,28 @@ type ChildType =
   & {
     centileColumns: CentileColumns,
     calculData: CalculData,
-    setCalculData: Dispatch<SetStateAction<CalculData | undefined>>
+    setCalculData: (calculData: CalculData) => void
   }
 
 const TestChild = ({id, input, label, centileColumns, calculData, setCalculData}: ChildType) => {
 
   const updateAverage = (moyenne: number) => {
-    setCalculData(previousCalculData => {
-      if (previousCalculData) {
-        const testCalculData = previousCalculData[id];
-        return {...previousCalculData, [id]: {...testCalculData, moyenne}}
-      }
-    });
+    const testCalculData = calculData[id];
+    setCalculData({...calculData, [id]: {...testCalculData, moyenne}});
   };
 
   const updateStandardDeviation = (ET: number) => {
-    setCalculData(previousCalculData => {
-      if (previousCalculData) {
-        const testCalculData = previousCalculData[id];
-        return {...previousCalculData, [id]: {...testCalculData, ET}}
-      }
-    });
+    const testCalculData = calculData[id];
+    setCalculData({...calculData, [id]: {...testCalculData, ET}});
   };
 
   const updatePercentileValue = (centileColumnValue: number) => (percentileValue: number) => {
-    setCalculData(previousCalculData => {
-      if (previousCalculData) {
-        const testCalculData = previousCalculData[id];
-        const pct = (testCalculData.pct || []).map(({p, v}) => {
-          if (p !== centileColumnValue) return {p, v};
-          return {p, v: percentileValue};
-        });
-        return {...previousCalculData, [id]: {...testCalculData, pct}};
-      }
+    const testCalculData = calculData[id];
+    const pct = (testCalculData.pct || []).map(({p, v}) => {
+      if (p !== centileColumnValue) return {p, v};
+      return {p, v: percentileValue};
     });
+    setCalculData({...calculData, [id]: {...testCalculData, pct}});
   };
 
   return (

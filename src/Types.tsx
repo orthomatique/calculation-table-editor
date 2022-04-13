@@ -29,18 +29,17 @@ export type Calcul = {
   data: CalculData
 };
 
-export type Calculs = Array<Calcul>;
-
 export type Test = {
-  uuid: string;
-  testName: string;
-  type: string;
-  description: string;
-  json: string;
-  patho: string;
-  difficultyThreshold: string;
-  options: string[];
-  children: Child[];
-  affectation: never[];
-  testCode: string;
+  uuid?: string;
+  testName?: string;
+  type?: string;
+  description?: string;
+  json?: string;
+  patho?: string;
+  difficultyThreshold?: string;
+  options?: string[];
+  children?: Child[];
+  affectation?: never[];
+  testCode?: string;
+  calcul?: Calcul[];
 }

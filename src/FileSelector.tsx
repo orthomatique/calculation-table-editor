@@ -5,7 +5,7 @@ import {Test} from "./Types";
 
 type FileSelectorType = {
   setFileName: (fileName: string) => void,
-  setContent: Dispatch<SetStateAction<Test>>
+  setContent: Dispatch<SetStateAction<Test | undefined>>
 };
 
 const FileSelector = ({setFileName, setContent}: FileSelectorType) => {
