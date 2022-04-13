@@ -1,0 +1,30 @@
+{
+  "uuid": "{f3943bed-4fae-49f2-9581-3e84966bd86c}",
+  "testName": "mon test perso",
+  "type": "LE",
+  "description": "la description",
+  "json": "",
+  "patho": "ET:-1.6449",
+  "difficultyThreshold": "ET:-1.3",
+  "options": [
+    "AUTOCONV"
+  ],
+  "children": [
+    {
+      "id": "custom_e91797cd-d5c1-45e4-847a-1a3a052e9b09",
+      "input": [
+        "SCORE_ET"
+      ],
+      "label": "e1"
+    },
+    {
+      "id": "custom_b17862c8-7842-465b-990a-db98d1bb4b53",
+      "input": [
+        "SCORE_CENTILE"
+      ],
+      "label": "e2"
+    }
+  ],
+  "affectation": [],
+  "testCode": "customtestsf3943bed-4fae-49f2-9581-3e84966bd86c"
+}

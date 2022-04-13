@@ -1,15 +1,16 @@
 import {unzip, deflate} from "zlib";
-
+import pako from 'pako';
 
 async function uncompress(fileContent) {
     try {
         const indexCarriageReturn = fileContent.indexOf('\n');
         const header = fileContent.slice(0, indexCarriageReturn);
         const compressedData = fileContent.slice(indexCarriageReturn + 5);
-        const uncompressedData = await unzip(compressedData);
+        const uncompressedData = pako.inflate(compressedData);
         const data = uncompressedData.toString('utf8');
         return { header, data };
     } catch (e) {
+        console.log({e})
         throw e;
     }
 }

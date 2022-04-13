@@ -14,6 +14,30 @@ const theme = createTheme({
       main: red.A400,
     },
   },
+  components: {
+    MuiContainer: {
+      styleOverrides: {
+        root: {
+          maxWidth: "98% !important"
+        },
+        maxWidthLg: {
+          maxWidth: "98%"
+        },
+        maxWidthMd: {
+          maxWidth: "98%"
+        },
+        maxWidthSm: {
+          maxWidth: "98%"
+        },
+        maxWidthXl: {
+          maxWidth: "98%"
+        },
+        maxWidthXs: {
+          maxWidth: "98%"
+        },
+      }
+    }
+  }
 });
 
 export default theme;
