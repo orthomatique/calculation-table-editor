@@ -4,7 +4,7 @@ import {uncompress} from "./FileImportExport";
 import {Test} from "./Types";
 
 type FileSelectorType = {
-  setFileName: (fileName: string) => void,
+  setFileName: Dispatch<SetStateAction<string | undefined>>,
   setContent: Dispatch<SetStateAction<Test | undefined>>
 };
 
@@ -20,9 +20,8 @@ const FileSelector = ({setFileName, setContent}: FileSelectorType) => {
       setFileName(file.name);
       const {result} = reader;
       const fileContent = new Uint8Array(result as ArrayBuffer);
-      // console.log({fileContent})
       const {data} = await uncompress(fileContent);
-      setContent(data);
+      setContent(JSON.parse(data));
     };
     reader.onerror = () => {
       console.log('file error', reader.error)
@@ -34,7 +33,7 @@ const FileSelector = ({setFileName, setContent}: FileSelectorType) => {
       variant="contained"
       component="label"
     >
-      Upload File
+      Téléverser un fichier de test
       <input
         type="file"
         onChange={handleFileChange}

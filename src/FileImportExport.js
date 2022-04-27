@@ -1,13 +1,11 @@
-import {unzip, deflate} from "zlib";
 import pako from 'pako';
 
 async function uncompress(fileContent) {
     try {
-        const indexCarriageReturn = fileContent.indexOf('\n');
+        const indexCarriageReturn = fileContent.indexOf('\n'.charCodeAt(0));
         const header = fileContent.slice(0, indexCarriageReturn);
         const compressedData = fileContent.slice(indexCarriageReturn + 5);
-        const uncompressedData = pako.inflate(compressedData);
-        const data = uncompressedData.toString('utf8');
+        const data = pako.inflate(compressedData, {to: 'string'});
         return { header, data };
     } catch (e) {
         console.log({e})
@@ -15,19 +13,18 @@ async function uncompress(fileContent) {
     }
 }
 
-async function compress(data, type, fileName) {
+async function compress(data, type) {
     const fourByteHeader = longToByteArray(data.length);
 
     const header = `ORTHOSCRIBE/${type}/1\n`;
 
-    const compressedDatas = await deflate(data);
+    const compressedDatas = pako.deflate(data);
 
     const buf1 = Buffer.from(header);
     const buf2 = Buffer.from(fourByteHeader);
     const buf3 = Buffer.from(compressedDatas);
     const totalLength = buf1.length + buf2.length + buf3.length;
-    const bufA = Buffer.concat([buf1, buf2, buf3], totalLength);
-    await writeFile(fileName, bufA);
+    return Buffer.concat([buf1, buf2, buf3], totalLength);
 }
 
 const longToByteArray = long => {

@@ -1,4 +1,4 @@
-import {FormControl, Grid, InputLabel, MenuItem, Select} from "@mui/material";
+import {FormControl, FormHelperText, Grid, InputLabel, MenuItem, Select} from "@mui/material";
 import AddClasseButton from "./AddClasseButton";
 
 type ClasseSelectorProps = {
@@ -9,9 +9,10 @@ type ClasseSelectorProps = {
 };
 
 const ClasseSelector = ({classe, classes, setClasse, addClasse}: ClasseSelectorProps) => {
+  const error = !classes.length;
   return <>
   <Grid item sm={2}>
-    <FormControl fullWidth>
+    <FormControl fullWidth error={error}>
       <InputLabel id="demo-simple-select-label">Classe</InputLabel>
       <Select
         labelId="demo-simple-select-label"
@@ -24,6 +25,9 @@ const ClasseSelector = ({classe, classes, setClasse, addClasse}: ClasseSelectorP
           classes.map(classe => <MenuItem key={classe} value={classe}>{classe}</MenuItem> )
         }
       </Select>
+      {
+        error && <FormHelperText>Cliquez sur le bouton &quot;+&quot; pour ajouter une classe</FormHelperText>
+      }
     </FormControl>
   </Grid>
   <Grid item sm={10}>
